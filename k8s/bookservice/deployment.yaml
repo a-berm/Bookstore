@@ -1,0 +1,27 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bookservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bookservice
+  template:
+    metadata:
+      labels:
+        app: bookservice
+    spec:
+      nodeSelector:
+        agentpool: userpool
+      containers:
+        - name: bookservice
+          image: bkstoreregistry.azurecr.io/bookservice:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: "Development"
+            - name: ASPNETCORE_HTTP_PORTS
+              value: "8080"

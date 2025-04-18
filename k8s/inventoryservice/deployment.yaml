@@ -1,0 +1,27 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: inventoryservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: inventoryservice
+  template:
+    metadata:
+      labels:
+        app: inventoryservice
+    spec:
+      nodeSelector:
+        agentpool: userpool 
+      containers:
+        - name: inventoryservice
+          image: bkstoreregistry.azurecr.io/inventoryservice:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: "Development"
+            - name: ASPNETCORE_HTTP_PORTS
+              value: "8080"

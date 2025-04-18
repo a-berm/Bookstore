@@ -1,0 +1,4 @@
+﻿namespace OrderService.Events
+{
+    public record OrderCreated(int OrderId, int ProductId, int Quantity, DateTime CreatedAt);
+}

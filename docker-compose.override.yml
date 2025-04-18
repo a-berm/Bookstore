@@ -1,0 +1,22 @@
+version: "3.9"
+
+services:
+  bookservice:
+    ports:
+      - "7023:80"  # BookService available at http://localhost:7023/swagger/index.html
+
+  orderservice:
+    ports:
+      - "7212:80"  # OrderService available at http://localhost:7212/swagger/index.html
+
+  inventoryservice:
+    ports:
+      - "7351:80"  # InventoryService available http://localhost:7351/swagger/index.html
+ 
+  catalogservice:
+    ports:
+      - "7410:80" # CatalogService available  http://localhost:7410/swagger/index.html
+
+  apigateway:
+    ports:
+      - "8080:80"  # You access everything via http://localhost:8080

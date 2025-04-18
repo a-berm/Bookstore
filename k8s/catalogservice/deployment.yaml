@@ -1,0 +1,27 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: catalogservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: catalogservice
+  template:
+    metadata:
+      labels:
+        app: catalogservice
+    spec:
+      nodeSelector:
+        agentpool: userpool 
+      containers:
+        - name: catalogservice
+          image: bkstoreregistry.azurecr.io/catalogservice:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: "Development"
+            - name: ASPNETCORE_HTTP_PORTS
+              value: "8080"

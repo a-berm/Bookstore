@@ -1,0 +1,96 @@
+version: "3.9"
+
+services:
+  bookservice:
+    build:
+      context: ./BookService
+      dockerfile: Dockerfile
+    container_name: bookservice
+    expose:
+      - "80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=80
+    networks:
+      - mynetwork
+
+  orderservice:
+    build:
+      context: ./OrderService
+      dockerfile: Dockerfile
+    container_name: orderservice
+    expose:
+      - "80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=80
+    depends_on:
+      - rabbitmq
+      - bookservice
+    networks:
+      - mynetwork
+
+  inventoryservice:
+    build:
+      context: ./InventoryService
+      dockerfile: Dockerfile
+    container_name: inventoryservice
+    expose:
+      - "80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=80
+    depends_on:
+      - rabbitmq
+    networks:
+      - mynetwork
+
+  catalogservice:
+    build:
+      context: ./CatalogService
+      dockerfile: Dockerfile
+    container_name: catalogservice
+    expose:
+      - "80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=80
+    depends_on:
+      - bookservice
+      - inventoryservice
+    networks:
+      - mynetwork
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_PASS=admin
+    networks:
+      - mynetwork
+
+  apigateway:
+    build:
+      context: ./ApiGateway
+      dockerfile: Dockerfile
+    container_name: apigateway
+    expose:
+      - "80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=80
+    depends_on:
+      - bookservice
+      - inventoryservice
+      - orderservice
+      - catalogservice
+    networks:
+      - mynetwork
+
+networks:
+  mynetwork:
+    driver: bridge
