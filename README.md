@@ -1,6 +1,6 @@
 # Bookstore Microservices Backend
 
-This is a simple backend microservices application designed as a learning project. The goal is to explore **key architectural patterns** in microservices rather than focus on complex business logic.
+This is a simple backend microservices application. The goal is to explore **key architectural patterns** in microservices using docker and kubernetes rather than focus on complex business logic.
 
 The application represents a **bookstore marketplace** that allows users to:
 - 🛒 Browse books
@@ -11,13 +11,14 @@ The application represents a **bookstore marketplace** that allows users to:
 
 ## ⚙️ Tech Stack
 
-- **.NET 8** – Service implementations
+- **C# .NET 8** – Service implementations
+- **RabbitMq & MassTransit** – Async communication
 - **Docker & Docker Compose** – Local environment
 - **Kubernetes (AKS)** – Cloud deployment
 - **NGINX Ingress Controller** – TLS termination and routing
 - **Azure** – Hosting via Azure Kubernetes Service
 - **Cert-Manager + Let's Encrypt** – TLS certificate automation
-- **In-memory Databases** – Used for simplicity in a learning context
+- **In-memory Databases** – Used for simplicity
 
 ---
 
@@ -26,7 +27,6 @@ The application represents a **bookstore marketplace** that allows users to:
 To run this project on your local machine, make sure you have:
 
 - Docker installed and running
-- Docker Compose
 
 ### 🔧 Run the whole system:
 
@@ -57,7 +57,7 @@ http://localhost:8080/api/books
 
 ### 🌐 API Gateway
 
-- Acts as a **reverse proxy**
+- Acts as a **reverse proxy** using yarp
 - Central entry point for all client requests
 - Forwards requests to the appropriate microservices (e.g., `BookService`, `OrderService`)
 - Handles path-based routing:  
@@ -73,9 +73,9 @@ http://localhost:8080/api/books
 
 ---
 
-### 📦 OrderService *(planned or stub)*
+### 📦 OrderService 
 
-- Intended to handle user orders and payment (currently minimal or stubbed)
+- Intended to handle user orders 
 - Follows separation of concerns
 
 ---
@@ -84,10 +84,8 @@ http://localhost:8080/api/books
 
 The app is designed to run on **Azure Kubernetes Service (AKS)** with:
 
-- **System Node Pool**: Runs infrastructure services (e.g., ingress)
+- **System Node Pool**: Runs infrastructure services
 - **User Node Pool**: Hosts application microservices
-
-All services are containerized and deployed as Kubernetes deployments behind a shared ingress controller.
 
 ---
 
@@ -98,43 +96,10 @@ This is **not a production-ready system**, but rather an architectural playgroun
 - ✅ Microservices communication
 - ✅ Ingress & Gateway configuration
 - ✅ Docker Compose for local development
-- ✅ AKS deployment pipelines
+- ✅ AKS deployment 
 - ✅ TLS setup with cert-manager
 
-The **business logic is intentionally minimal**, using **in-memory databases** to keep the focus on infrastructure, service boundaries, and microservices best practices.
-
----
-
-## 📄 API Access (local)
-
-Here’s how to test it once everything is running locally:
-
-```http
-GET http://localhost:8080/api/books
-```
-
-Sample response:
-```json
-[
-  {
-    "id": 1,
-    "title": "The Great Gatsby",
-    "author": "F. Scott Fitzgerald",
-    "price": 10.99
-  },
-  ...
-]
-```
-
----
-
-## ✅ To-Do / Enhancements
-
-- 🔁 Replace in-memory DB with PostgreSQL or MongoDB
-- 🚛 Implement event-driven communication (e.g., via RabbitMQ)
-- 🔐 Add authentication and role-based access
-- 📦 Complete `OrderService` and add billing logic
-- 🧪 Add integration tests and health checks
+The **business logic is intentionally minimal**, to keep the focus on infrastructure, service boundaries, and microservices best practices.
 
 ---
 
