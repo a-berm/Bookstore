@@ -37,7 +37,7 @@ docker-compose up --build
 After the services are up, you can access the API via the **API Gateway** (entry point):
 
 ```http
-http://localhost:8080/api/books
+http://localhost:8080/api/catalog
 ```
 
 ---
@@ -64,11 +64,23 @@ http://localhost:8080/api/books
   Example: `/api/books` → forwarded to BookService
 
 ---
+### 📚 CatalogService
+
+- Acts as a BFF
+- Fetches and aggregate books and their available stock from bookservice and inventoryservice
+
+---
+
+### 📦 InventoryService 
+
+- Handles book stock management 
+- Uses **in-memory database** for simplicity
+
+---
 
 ### 📚 BookService
 
 - Exposes endpoints to list available books
-- Handles book stock management (admin only)
 - Uses **in-memory database** for simplicity
 
 ---
