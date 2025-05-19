@@ -99,6 +99,8 @@ The app is designed to run on **Azure Kubernetes Service (AKS)** with:
 - **System Node Pool**: Runs infrastructure services
 - **User Node Pool**: Hosts application microservices
 
+If the bookstore.aks.it.com/api/catalog endpoint is unresponsive, the cluster may be shut down to avoid unnecessary billing
+
 ---
 
 ## 🧪 Learning Focus
